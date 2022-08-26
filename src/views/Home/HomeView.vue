@@ -1,17 +1,6 @@
 <template>
     <div class="home">
-        <header class="home__header">
-            <ul class="home__header--nav">
-                <li
-                    v-for="(item, index) in routeList"
-                    :key="index"
-                    class="home__header--nav-li"
-                    @click="slipTo(item.path)"
-                >
-                    {{ item.meta }}
-                </li>
-            </ul>
-        </header>
+        <TopIndex></TopIndex>
 
         <div class="home__main">
             <div class="home__main--aside"></div>
@@ -27,9 +16,13 @@
                         <span>{{ number }}</span>
                     </div>
                 </div>
+
                 <div class="home__main--module-props">
                     <FreeWeek></FreeWeek>
                     <CalendarProp></CalendarProp>
+                </div>
+                <div class="home__main--module-middle">
+                    <StepDay></StepDay>
                 </div>
             </div>
         </div>
@@ -37,6 +30,7 @@
 </template>
 
 <script>
+import TopIndex from '@/components/TopIndex.vue'
 const allComponents = require.context('./Components', true, /\.vue$/)
 let res_components = {}
 allComponents.keys().forEach((item) => {
@@ -46,10 +40,9 @@ allComponents.keys().forEach((item) => {
 })
 export default {
     name: 'HomeView',
-    components: { ...res_components },
+    components: { ...res_components, TopIndex },
     data() {
         return {
-            routeList: [],
             imgList: [],
             number: 0,
             data: {},
@@ -59,7 +52,7 @@ export default {
         }
     },
     methods: {
-        slipTo(item) {
+        slipTo() {
             var result = document.querySelectorAll(
                 '.home__main--module-visit span'
             )
@@ -67,12 +60,13 @@ export default {
                 localStorage.clickcount = Number(localStorage.clickcount) + 1
             else localStorage.clickcount = 1
             result[1].innerHTML = localStorage.clickcount
-            this.$router.push(item)
         },
     },
     created() {
         this.number = Number(localStorage.clickcount) + 1
-        this.routeList = this.$router.getRoutes()
+    },
+    mount() {
+        this.slipTo()
     },
 }
 </script>
@@ -81,21 +75,7 @@ export default {
 @include b(home) {
     @extend %background;
     position: relative;
-    @include e(header) {
-        width: 100%;
-        height: 40px;
-        background-color: #cce6e6;
-        // position: fixed;
-        @include m(nav) {
-            @extend %flex-center-center;
-            display: flex;
-            &-li {
-                width: 100px;
-                line-height: 40px;
-                color: green;
-            }
-        }
-    }
+
     @include e(main) {
         display: flex;
         width: 100%;
@@ -111,7 +91,7 @@ export default {
             width: 75%;
             background: white;
             border-radius: 1%;
-            box-shadow: 10px 10px 5px #cce6e6;
+            // box-shadow: 10px 10px 5px #cce6e6;
             &-header {
                 @extend %flex-center-end;
                 width: 100%;
@@ -150,6 +130,9 @@ export default {
                 display: flex;
                 justify-content: space-around;
                 padding: 5px 0 0 5px;
+            }
+            &-middle {
+                height: 200px;
             }
         }
     }

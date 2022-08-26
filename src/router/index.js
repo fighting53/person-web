@@ -1,24 +1,27 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/Home/HomeView.vue'
+// import HomeView from '../views/Home/HomeView.vue'
 
 Vue.use(VueRouter)
 
-// 解决点击不能出现问题
-// const originalPush = VueRouter.prototype.push
-// VueRouter.prototype.push = function push(location) {
-//     return originalPush.call(this, location).catch((err) => err)
-// }
+//解决点击不能出现问题
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch((err) => err)
+}
 
 const routes = [
     {
-        path: '/',
+        path: '/home',
         name: 'home',
-        component: HomeView,
+        component: () =>
+            import(
+                /* webpackChunkName: "about" */ '../views/Home/HomeView.vue'
+            ),
         meta: '首页',
     },
     {
-        path: '/read',
+        path: '/book',
         name: 'ReadBook',
         component: () =>
             import(
@@ -41,6 +44,15 @@ const routes = [
         component: () =>
             import(
                 /* webpackChunkName: "about" */ '../views/News/NewsHome.vue'
+            ),
+        meta: '新闻',
+    },
+    {
+        path: '/news/list',
+        name: 'NewsList',
+        component: () =>
+            import(
+                /* webpackChunkName: "about" */ '../views/News/NewsList.vue'
             ),
         meta: '新闻',
     },

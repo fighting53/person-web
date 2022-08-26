@@ -17,6 +17,8 @@ import {
     Dialog,
     Button,
     CollapseTransition,
+    Steps,
+    Step,
 } from 'element-ui'
 
 Vue.use(Image)
@@ -37,6 +39,8 @@ Vue.use(MenuItemGroup)
 Vue.use(Dialog)
 Vue.use(Button)
 Vue.use(CollapseTransition)
+Vue.use(Steps)
+Vue.use(Step)
 
 Vue.prototype.$msgbox = MessageBox
 Vue.prototype.$alert = MessageBox.alert
