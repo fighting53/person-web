@@ -78,6 +78,7 @@ export default {
             })
                 .then((res) => {
                     this.data = res.data.data
+                    // console.log(this.data, '1234566')
                 })
                 .catch((error) => {
                     console.log(error)

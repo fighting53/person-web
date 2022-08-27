@@ -3,7 +3,9 @@
         <TopIndex></TopIndex>
 
         <div class="home__main">
-            <div class="home__main--aside"></div>
+            <div class="home__main--aside">
+                <StepDay></StepDay>
+            </div>
 
             <div class="home__main--module">
                 <div class="home__main--module-header">
@@ -11,19 +13,23 @@
                         <span>{{ dataMin }}</span>
                         <span>{{ dataYear }}</span>
                     </div>
-                    <div class="home__main--module-visit">
+                    <!-- <div class="home__main--module-visit">
                         <span>访问量：</span>
                         <span>{{ number }}</span>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="home__main--module-props">
-                    <FreeWeek></FreeWeek>
-                    <CalendarProp></CalendarProp>
+                    <WatchBook></WatchBook>
+                    <!-- <FreeWeek></FreeWeek> -->
+                    <!-- <CalendarProp></CalendarProp> -->
                 </div>
                 <div class="home__main--module-middle">
-                    <StepDay></StepDay>
+                    <!-- <WatchBook></WatchBook> -->
                 </div>
+            </div>
+            <div class="home__main--right">
+                <HoroScope></HoroScope>
             </div>
         </div>
     </div>
@@ -31,16 +37,24 @@
 
 <script>
 import TopIndex from '@/components/TopIndex.vue'
-const allComponents = require.context('./Components', true, /\.vue$/)
+import StepDay from './Components/StepDay.vue'
+const allComponents = require.context('./Components/top', true, /\.vue$/)
+const middleComponents = require.context('./Components/middle', true, /\.vue$/)
 let res_components = {}
+let middle_components = {}
 allComponents.keys().forEach((item) => {
     let comp = allComponents(item)
     let name = comp.default.name
     res_components[name] = comp.default
 })
+middleComponents.keys().forEach((item) => {
+    let comp = middleComponents(item)
+    let name = comp.default.name
+    middle_components[name] = comp.default
+})
 export default {
     name: 'HomeView',
-    components: { ...res_components, TopIndex },
+    components: { ...res_components, TopIndex, StepDay, ...middle_components },
     data() {
         return {
             imgList: [],
@@ -78,20 +92,20 @@ export default {
 
     @include e(main) {
         display: flex;
+        justify-content: space-between;
         width: 100%;
         height: 100%;
-        background: #cce6e6;
+
         @include m(aside) {
-            width: 250px;
+            width: 300px;
             height: 700px;
         }
 
         @include m(module) {
             position: relative;
-            width: 75%;
+            width: 920px;
             background: white;
             border-radius: 1%;
-            // box-shadow: 10px 10px 5px #cce6e6;
             &-header {
                 @extend %flex-center-end;
                 width: 100%;
@@ -101,7 +115,8 @@ export default {
             &-currentTime {
                 display: flex;
                 flex-direction: column;
-                padding-right: 410px;
+
+                padding-right: 45%;
                 :first-child {
                     font-size: 50px;
                     font-weight: bold;
@@ -117,23 +132,26 @@ export default {
                 width: 140px;
                 height: 50px;
                 line-height: 50px;
-                margin-right: 10px;
+                margin-right: 40px;
                 background: #cce6e6;
                 color: green;
                 border-radius: 48%;
             }
             &-props {
-                margin-top: 56px;
+                margin-top: 62px;
                 width: 100%;
-                height: 190px;
-                // background: #cce6e6;
+                // height: 190px;
                 display: flex;
-                justify-content: space-around;
+                justify-content: space-between;
                 padding: 5px 0 0 5px;
             }
             &-middle {
-                height: 200px;
+                margin-top: 56px;
+                height: 220px;
             }
+        }
+        @include m(right) {
+            width: 260px;
         }
     }
 }

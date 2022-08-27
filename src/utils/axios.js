@@ -10,7 +10,7 @@ function handleExpire() {
 const httpCode = {
     204: '查无数据',
 }
-
+console.log(baseApiPrefix, '1234566')
 const ajax = axios.create({
     baseURL: baseApiPrefix,
     timeout: 30000,
