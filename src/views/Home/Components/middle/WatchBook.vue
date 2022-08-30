@@ -42,6 +42,7 @@ export default {
                         name: '',
                         type: 'line',
                         data: this.data,
+                        smooth: true,
                     },
                 ],
             }

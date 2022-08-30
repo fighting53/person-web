@@ -19,8 +19,9 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapState } from 'vuex'
+import { freeWeek } from '@/api/news'
+
 export default {
     name: 'FreeWeek',
     data() {
@@ -33,27 +34,16 @@ export default {
     },
     methods: {
         // 获取天气
-        getTheWeather() {
-            // 先通过接口请求一次当前天气状况
-            axios({
-                methods: 'get',
-                url: 'https://tianqiapi.com/free/week',
-                headers: {},
-                params: {
-                    ...this.freesky,
-                },
+        async getTheWeather() {
+            const res = await freeWeek({
+                ...this.freesky,
             })
-                .then((res) => {
-                    this.data = res.data
-                    this.data.update_time = this.data.update_time.slice(5)
-                    this.data.data.forEach((data) => {
-                        data.date = data.date.replaceAll('-', '/').slice(5)
-                        data.wea = data.wea.slice(0, 2)
-                    })
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
+            this.data = res.data
+            this.data.update_time = this.data.update_time.slice(5)
+            this.data.data.forEach((data) => {
+                data.date = data.date.replaceAll('-', '/').slice(5)
+                data.wea = data.wea.slice(0, 2)
+            })
         },
     },
     created() {

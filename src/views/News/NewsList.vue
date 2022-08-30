@@ -21,12 +21,10 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapState } from 'vuex'
 import TopIndex from '@/components/TopIndex.vue'
+import { listDetails } from '@/api/news'
 
-// import { listTypes } from '@/api/list'
-// import { listTypes, listList, listDetails } from '@/api/list'
 export default {
     name: 'listHome',
     components: { TopIndex },
@@ -39,27 +37,15 @@ export default {
         ...mapState({ calendar: (state) => state.user.calendar }),
     },
     methods: {
-        clicklist() {
-            axios({
-                method: 'get',
-                headers: {},
-                url: 'https://www.mxnzp.com/api/list/details',
-                params: {
-                    newsId: this.$route.query.newsId,
-                    ...this.calendar,
-                },
+        async clicklist() {
+            const res = await listDetails({
+                newsId: this.$route.query.newsId,
+                ...this.calendar,
             })
-                .then((res) => {
-                    this.newList = res.data.data
-                    console.log(this.newList, 15646156516)
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
+            this.newList = res.data.data
         },
     },
     created() {
-        console.log(this.$route.query.newsId)
         this.clicklist()
     },
 }

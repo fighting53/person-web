@@ -16,10 +16,8 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapState } from 'vuex'
-
-// import { newsTypes } from '@/api/news'
+import { newsTypes } from '@/api/news'
 // import { newsTypes, newsList, newsDetails } from '@/api/news'
 export default {
     name: 'NewsAside',
@@ -32,21 +30,11 @@ export default {
         ...mapState({ calendar: (state) => state.user.calendar }),
     },
     methods: {
-        getNews() {
-            axios({
-                method: 'get',
-                headers: {},
-                url: 'https://www.mxnzp.com/api/news/types',
-                params: {
-                    ...this.calendar,
-                },
+        async getNews() {
+            const res = await newsTypes({
+                ...this.calendar,
             })
-                .then((res) => {
-                    this.dataList = res.data.data
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
+            this.dataList = res.data.data
         },
         clickNews(item) {
             this.$emit('event', item)

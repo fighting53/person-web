@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapState } from 'vuex'
+import { historyToday } from '@/api/news'
 
 export default {
     name: 'StepDay',
@@ -24,22 +24,9 @@ export default {
         ...mapState({ calendar: (state) => state.user.calendar }),
     },
     methods: {
-        changeEventId() {
-            axios({
-                method: 'get',
-                headers: {},
-                url: 'https://www.mxnzp.com/api/history/today',
-                params: {
-                    type: 0,
-                    ...this.calendar,
-                },
-            })
-                .then((res) => {
-                    this.newList = res.data.data
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
+        async changeEventId() {
+            const res = await historyToday({ type: 0, ...this.calendar })
+            this.newList = res.data.data
         },
     },
     created() {

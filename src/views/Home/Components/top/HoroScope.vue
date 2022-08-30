@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 export default {
     name: 'HoroScope',
     data() {
@@ -24,22 +24,22 @@ export default {
     },
     methods: {
         star() {
-            axios({
-                methods: 'get',
-                url: 'http://api.tianapi.com/star/index',
-                headers: {},
-                params: {
-                    key: this.key,
-                    astro: 'aries',
-                },
-            })
-                .then((res) => {
-                    this.newslist = res.data.newslist
-                    console.log(this.newslist)
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
+            // axios({
+            //     methods: 'get',
+            //     url: 'http://api.tianapi.com/star/index',
+            //     headers: {},
+            //     params: {
+            //         key: this.key,
+            //         astro: 'aries',
+            //     },
+            // })
+            //     .then((res) => {
+            //         this.newslist = res.data.newslist
+            //         console.log(this.newslist)
+            //     })
+            //     .catch((err) => {
+            //         console.log(err)
+            //     })
         },
     },
     created() {
@@ -51,16 +51,15 @@ export default {
 <style lang="scss" scoped>
 @include b(satr) {
     width: 100%;
-    height: 100%;
+    height: 550px;
     border-radius: 20px;
     margin-top: 120px;
     border: 1px;
     text-align: left;
+    background: #f0ffff;
     @include e(label) {
-        background: #f0ffff;
         opacity: 0.6;
         height: 40px;
-        color: black;
         line-height: 40px;
         padding-left: 35%;
         font-size: 26px;

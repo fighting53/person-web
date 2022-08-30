@@ -33,13 +33,11 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapState } from 'vuex'
 import TopIndex from '@/components/TopIndex.vue'
 import NewsAside from './components/NewsAside.vue'
+import { newsList } from '@/api/news'
 
-// import { newsTypes } from '@/api/news'
-// import { newsTypes, newsList, newsDetails } from '@/api/news'
 export default {
     name: 'NewsHome',
     components: { TopIndex, NewsAside },
@@ -53,23 +51,13 @@ export default {
         ...mapState({ calendar: (state) => state.user.calendar }),
     },
     methods: {
-        changeEventId(val) {
-            axios({
-                method: 'get',
-                headers: {},
-                url: 'https://www.mxnzp.com/api/news/list',
-                params: {
-                    typeId: val,
-                    page: '1',
-                    ...this.calendar,
-                },
+        async changeEventId(val) {
+            const res = await newsList({
+                typeId: val,
+                page: '1',
+                ...this.calendar,
             })
-                .then((res) => {
-                    this.newList = res.data.data
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
+            this.newList = res.data.data
         },
         clickNews(item) {
             this.$router.push({

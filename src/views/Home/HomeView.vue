@@ -12,6 +12,7 @@
                     <div class="home__main--module-currentTime">
                         <span>{{ dataMin }}</span>
                         <span>{{ dataYear }}</span>
+                        <span>{{ sentence }}</span>
                     </div>
                     <!-- <div class="home__main--module-visit">
                         <span>访问量：</span>
@@ -36,8 +37,11 @@
 </template>
 
 <script>
+// import axios from 'axios'
 import TopIndex from '@/components/TopIndex.vue'
 import StepDay from './Components/StepDay.vue'
+import { mapState } from 'vuex'
+// import { recommend } from '@/api/news'
 const allComponents = require.context('./Components/top', true, /\.vue$/)
 const middleComponents = require.context('./Components/middle', true, /\.vue$/)
 let res_components = {}
@@ -61,25 +65,36 @@ export default {
             number: 0,
             data: {},
             times: '',
+            sentence: '',
             dataYear: new Date().toLocaleDateString(),
             dataMin: new Date().toTimeString().slice(0, 5),
         }
     },
+    computed: {
+        ...mapState({ calendar: (state) => state.user.calendar }),
+    },
     methods: {
         slipTo() {
-            var result = document.querySelectorAll(
-                '.home__main--module-visit span'
-            )
-            if (localStorage.clickcount)
-                localStorage.clickcount = Number(localStorage.clickcount) + 1
-            else localStorage.clickcount = 1
-            result[1].innerHTML = localStorage.clickcount
+            // var result = document.querySelectorAll(
+            //     '.home__main--module-visit span'
+            // )
+            // if (localStorage.clickcount)
+            //     localStorage.clickcount = Number(localStorage.clickcount) + 1
+            // else localStorage.clickcount = 1
+            // result[1].innerHTML = localStorage.clickcount
+        },
+        async getSentence() {
+            // const res = await recommend({
+            //     count: 1,
+            //     ...this.calendar,
+            // })
         },
     },
     created() {
         this.number = Number(localStorage.clickcount) + 1
+        this.getSentence()
     },
-    mount() {
+    mounted() {
         this.slipTo()
     },
 }
@@ -106,6 +121,7 @@ export default {
             width: 920px;
             background: white;
             border-radius: 1%;
+            margin-top: 30px;
             &-header {
                 @extend %flex-center-end;
                 width: 100%;
